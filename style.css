@@ -14,6 +14,40 @@ body {
   padding-top: 1rem;
   padding-bottom: 2rem; /* 👈 space below cards */
 }
+/* ===== LOGOUT MODAL ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal-box {
+  width: 85%;
+  max-width: 320px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 14px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.modal-box p {
+  font-size: 16px;
+  margin-bottom: 18px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.modal-actions button {
+  flex: 1;
+}
 
 /* ===== CONTAINER (FOR FORMS) ===== */
 .container {
@@ -292,6 +326,7 @@ a {
     width: 170px;
   }
 }
+
 
 
 
