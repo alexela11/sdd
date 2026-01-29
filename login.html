@@ -26,6 +26,10 @@
 
   <button id="loginBtn">Login</button>
 
+  <p id="errorMsg" class="error-msg" style="display:none;">
+  Username and password is incorrect. Please try again.
+</p>
+
   <a class="link" href="admin-register.html">Don't have an account?</a>
 </div>
 
@@ -49,9 +53,10 @@ async function hashPassword(password) {
 
 /* ===== LOGIN ===== */
 async function loginAdmin() {
+  document.getElementById("errorMsg").style.display = "none";
   const usernameVal = username.value.trim();
   const passwordVal = password.value;
-
+  
   if (!usernameVal || !passwordVal) {
     alert("Fill all fields");
     return;
@@ -66,16 +71,14 @@ async function loginAdmin() {
     .eq("password_hash", password_hash)
     .single();
 
-  if (error || !data) {
-    alert("Invalid username or password");
-    return;
-  }
-
+if (error || !data) {
+  document.getElementById("errorMsg").style.display = "block";
+  return;
+}
   localStorage.setItem("admin", JSON.stringify(data));
   window.location.href = "index.html";
 }
-
-/* ===== BUTTON EVENT ===== */
+  
 document
   .getElementById("loginBtn")
   .addEventListener("click", loginAdmin);
@@ -83,6 +86,7 @@ document
 
 </body>
 </html>
+
 
 
 
