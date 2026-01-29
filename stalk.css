@@ -143,10 +143,11 @@ body {
 /* =============================== */
 @media (max-width: 480px) {
   .logo-wrapper img {
-    width: 90px !important;
+    width: 200px !important;
     height: auto;
   }
 }
+
 
 
 
