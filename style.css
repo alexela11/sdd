@@ -15,33 +15,34 @@ body {
   justify-content: center;
 }
 
-/* ===== CONTAINER (FORMS / PAGES) ===== */
 .container {
-  width: 92%;
-  max-width: 380px;
+  width: 94%;
+  max-width: 420px; /* 👈 bigger on phones */
   background: #ffffff;
-  padding: 22px;
-  border-radius: 14px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  padding: 26px;    /* 👈 more breathing room */
+  border-radius: 16px;
+  box-shadow: 0 12px 35px rgba(0,0,0,0.1);
 }
+
 
 /* ===== HEADINGS ===== */
 .container h2 {
   text-align: center;
-  margin-bottom: 18px;
-  font-size: 22px;
+  margin-bottom: 22px;
+  font-size: 24px;   /* 👈 better for phone */
   color: #111827;
 }
+
 
 /* ===== INPUTS ===== */
 input, select {
   width: 100%;
-  padding: 12px 14px;
-  margin-top: 8px;
-  margin-bottom: 14px;
-  border-radius: 10px;
+  padding: 16px 16px;   /* 👈 taller */
+  margin-top: 10px;
+  margin-bottom: 16px;
+  border-radius: 12px;
   border: 1px solid #d1d5db;
-  font-size: 15px;
+  font-size: 17px;      /* 👈 readable on phone */
 }
 
 input:focus, select:focus {
@@ -52,14 +53,15 @@ input:focus, select:focus {
 /* ===== BUTTONS ===== */
 button {
   width: 100%;
-  padding: 13px;
-  border-radius: 10px;
+  padding: 16px;        /* 👈 thumb friendly */
+  border-radius: 12px;
   border: none;
-  font-size: 15px;
+  font-size: 17px;      /* 👈 bigger text */
   font-weight: 600;
   cursor: pointer;
   transition: 0.2s ease;
 }
+
 
 /* PRIMARY BUTTON */
 button.primary,
@@ -250,10 +252,22 @@ tbody tr:nth-child(even) {
 /* ===== MOBILE SAFE ===== */
 @media (max-width: 420px) {
   .container {
+    width: 96%;
+    padding: 28px;
+  }
+
+  .container h2 {
+    font-size: 26px;
+  }
+
+  input, select {
+    font-size: 18px;
     padding: 18px;
   }
 
-  h2 {
-    font-size: 20px;
+  button {
+    font-size: 18px;
+    padding: 18px;
   }
 }
+
