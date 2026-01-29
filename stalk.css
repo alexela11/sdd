@@ -116,8 +116,13 @@ body {
 }
 
 .logo-wrapper img {
-  width: 180px;           
-  height: auto;
+  width: 90px;
+}
+
+@media (min-width: 768px) {
+  .logo-wrapper img {
+    width: 110px;
+  }
 }
 
 .screen {
@@ -138,6 +143,7 @@ body {
     max-width: 420px;
   }
 }
+
 
 
 
