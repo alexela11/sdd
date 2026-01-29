@@ -12,11 +12,9 @@ body {
 
   display: flex;
   justify-content: center;
-  align-items: center;
-
-  padding-top: env(safe-area-inset-top);
-  padding-bottom: env(safe-area-inset-bottom);
+  align-items: flex-start;
 }
+
 
 /* ===== PHONE FRAME ===== */
 .screen {
@@ -120,4 +118,5 @@ body {
 .screen::after {
   display: none;
 }
+
 
