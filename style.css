@@ -15,40 +15,6 @@ body {
   padding-bottom: 2rem; /* 👈 space below cards */
 }
 /* ===== LOGOUT MODAL ===== */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.4);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-}
-
-.modal-box {
-  width: 85%;
-  max-width: 320px;
-  background: #fff;
-  padding: 20px;
-  border-radius: 14px;
-  text-align: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-}
-
-.modal-box p {
-  font-size: 16px;
-  margin-bottom: 18px;
-}
-
-.modal-actions {
-  display: flex;
-  gap: 12px;
-}
-
-.modal-actions button {
-  flex: 1;
-}
-
 /* ===== CONTAINER (FOR FORMS) ===== */
 .container {
   width: 94%;
@@ -325,6 +291,40 @@ a {
   .logo-wrapper.large img {
     width: 170px;
   }
+}
+
+/* ===== LOGOUT MODAL ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: none;               /* 🔴 hidden by default */
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal-box {
+  width: 85%;
+  max-width: 320px;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 16px;
+  text-align: center;
+}
+
+.modal-text {
+  font-size: 16px;
+  margin-bottom: 18px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.modal-actions button {
+  flex: 1;
 }
 
 
