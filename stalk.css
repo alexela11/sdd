@@ -15,10 +15,11 @@ body {
 
 /* PHONE CONTAINER */
 .screen {
-  width: 22rem;              /* mobile width */
+  width: 94vw;          /* 👈 phone width */
+  max-width: 26rem;    /* 👈 keeps it phone-sized */
   background: #f8fafc;
-  border-radius: 1rem;
-  padding: 1.5rem;
+  border-radius: 1.2rem;
+  padding: 2rem;
 }
 
 /* TOP BUTTON BAR */
@@ -99,4 +100,5 @@ body {
 .btn.danger:hover {
   background: #e14b4b;
 }
+
 
