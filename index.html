@@ -11,33 +11,51 @@
 <body>
 
 <div class="screen">
+
+  <!-- LOGO -->
   <div class="logo-wrapper">
     <img src="sdd-logo.png" alt="SDD Logo">
-    </div>
+  </div>
+
+  <!-- TOP BAR -->
   <div class="top-bar">
     <button class="btn primary" onclick="goAdd()">+ Add New</button>
     <button class="btn secondary" onclick="goHistory()">📜 History</button>
-    <button class="btn danger" onclick="logout()">🚪 Logout</button>
-</div>
+    <button class="btn danger" onclick="openLogout()">🚪 Logout</button>
   </div>
 
+  <!-- USER LIST -->
   <div id="userList" class="user-list"></div>
 
 </div>
-<!-- LOGOUT CONFIRM MODAL -->
+
+<!-- 🔒 LOGOUT CONFIRM MODAL (HIDDEN BY DEFAULT) -->
+<div id="logoutModal" class="modal hidden">
+  <div class="modal-box">
+    <p>Are you sure you want to log out?</p>
+
+    <div class="modal-actions">
+      <button class="btn danger" onclick="confirmLogout()">Yes</button>
+      <button class="btn primary" onclick="closeLogout()">No</button>
+    </div>
+  </div>
+</div>
 
 <script>
+/* ===== SUPABASE ===== */
 const SUPABASE_URL = "https://fiiflkakeaorglvqyjxx.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZpaWZsa2FrZWFvcmdsdnF5anh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1NzMxMTcsImV4cCI6MjA4NTE0OTExN30.jWvGfrYhLtXgTKPlLod_TmdavoIAKudeQZ2AT42pVE8";
-
+const SUPABASE_KEY = "YOUR_KEY_HERE";
 const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+/* ===== AUTH CHECK ===== */
 const admin = JSON.parse(localStorage.getItem("admin"));
 if (!admin) location.href = "login.html";
 
+/* ===== NAV ===== */
 function goAdd() { location.href = "add-user.html"; }
 function goHistory() { location.href = "history.html"; }
 
+/* ===== LOAD USERS ===== */
 async function loadUsers() {
   const { data } = await db
     .from("drawer_users")
@@ -55,12 +73,14 @@ async function loadUsers() {
     `;
   });
 }
-function logout() {
-  document.getElementById("logoutModal").style.display = "flex";
+
+/* ===== LOGOUT MODAL ===== */
+function openLogout() {
+  document.getElementById("logoutModal").classList.remove("hidden");
 }
 
 function closeLogout() {
-  document.getElementById("logoutModal").style.display = "none";
+  document.getElementById("logoutModal").classList.add("hidden");
 }
 
 function confirmLogout() {
@@ -73,35 +93,7 @@ function openUser(id) {
 }
 
 loadUsers();
-
 </script>
-
-<div id="logoutModal" class="modal-overlay">
-  <div class="modal-box">
-    <p class="modal-text">Are you sure you want to log out?</p>
-
-    <div class="modal-actions">
-      <button class="btn danger" onclick="confirmLogout()">Yes</button>
-      <button class="btn secondary" onclick="closeLogout()">No</button>
-    </div>
-  </div>
-</div>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
