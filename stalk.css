@@ -90,3 +90,13 @@ body {
   text-align: center;
   white-space: nowrap;
 }
+
+.btn.danger {
+  background: #ff5c5c;
+  color: white;
+}
+
+.btn.danger:hover {
+  background: #e14b4b;
+}
+
