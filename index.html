@@ -49,22 +49,23 @@ async function loadUsers() {
     `;
   });
 }
-
+function logout() {
+  localStorage.removeItem("admin"); // remove admin session
+  window.location.href = "login.html"; // go back to login
+}
 function openUser(id) {
   location.href = `manage.html?id=${id}`;
 }
 
 loadUsers();
 
-  <script>
-function logout() {
-  localStorage.removeItem("admin"); // remove admin session
-  window.location.href = "login.html"; // go back to login
-}
-</script>
+
+
+
 
 </script>
 
 </body>
 </html>
+
 
