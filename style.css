@@ -194,3 +194,56 @@ a {
     padding: 1rem;
   }
 }
+/* =============================== */
+/* FIX UPDATE RFID & SIMPLE CARDS */
+/* =============================== */
+
+/* Screen wrapper fix */
+.screen {
+  min-height: 100svh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 2rem;
+}
+
+/* Generic card used by Update RFID */
+.card {
+  width: 94%;
+  max-width: 420px;
+
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 16px;
+
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+/* Space elements inside card */
+.card > * {
+  margin-bottom: 1rem;
+}
+
+.card > *:last-child {
+  margin-bottom: 0;
+}
+
+/* Select should match buttons */
+.card select {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+  border-radius: 12px;
+}
+
+/* Buttons spacing fix */
+.card button {
+  margin-top: 0.5rem;
+}
+
+/* Back link spacing */
+.card .back-link {
+  display: inline-block;
+  margin-top: 0.75rem;
+}
+
