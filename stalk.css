@@ -15,6 +15,44 @@ body {
   align-items: flex-start;
 }
 
+/* ===== LOGOUT MODAL ===== */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-box {
+  background: #fff;
+  width: 90%;
+  max-width: 320px;
+  padding: 1.5rem;
+  border-radius: 14px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.modal-box p {
+  font-size: 16px;
+  margin-bottom: 1.2rem;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.modal-actions button {
+  flex: 1;
+}
 
 /* ===== PHONE FRAME ===== */
 
@@ -147,6 +185,7 @@ body {
     width: 75px !important;   /* 👈 CHANGE SIZE HERE */
   }
 }
+
 
 
 
