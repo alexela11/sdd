@@ -21,15 +21,15 @@ body {
 /* ===== PHONE FRAME ===== */
 .screen {
   width: 100%;
-  max-width: 420px;          /* iPhone width */
-  min-height: 100vh;         /* FULL PHONE HEIGHT */
+  max-width: 420px;
+  min-height: 100vh;
 
   background: #f8fafc;
-  padding: 1rem;
+  border-radius: 1rem;
 
-  display: flex;
-  flex-direction: column;
+  padding: 1.25rem;
 }
+
 
 /* ===== TOP BAR ===== */
 .top-bar {
@@ -120,3 +120,4 @@ body {
 .screen::after {
   display: none;
 }
+
