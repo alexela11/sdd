@@ -109,15 +109,6 @@ body {
   display: none;
 }
 
-.logo-wrapper {
-  display: flex;
-  justify-content: center;
-  margin: 1rem 0 0.8rem;
-}
-
-.logo-wrapper img {
-  width: 200px;
-}
 
 .screen {
   max-width: 420px;     
@@ -138,13 +129,22 @@ body {
   }
 }
 
-/* =============================== */
-/* 📱 FORCE LOGO SIZE ON MOBILE    */
-/* =============================== */
+
+.logo-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.logo-wrapper img {
+  width: 90px;      /* DEFAULT */
+  height: auto;
+}
+
+/* 📱 MOBILE OVERRIDE */
 @media (max-width: 480px) {
   .logo-wrapper img {
-    width: 200px !important;
-    height: auto;
+    width: 75px !important;   /* 👈 CHANGE SIZE HERE */
   }
 }
 
