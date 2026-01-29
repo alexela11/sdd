@@ -50,7 +50,22 @@ input:focus, select:focus {
   border-color: #2563eb;
 }
 
-/* ===== BUTTONS (GLOBAL) ===== */
+/* ===== FORCE LOGIN ERROR STYLE ===== */
+#errorMsg {
+  display: none;               /* JS will toggle this */
+  margin-top: 14px;
+  padding: 12px 14px;
+
+  background-color: #fee2e2 !important;
+  color: #991b1b !important;
+
+  border-radius: 12px;
+  font-size: 15px;
+  text-align: center;
+
+  border: 1px solid #fca5a5;
+}
+
 button {
   width: 100%;
   padding: 16px;
@@ -276,16 +291,6 @@ a {
   .logo-wrapper.large img {
     width: 170px;
   }
-}
-
-.error-msg {
-  margin-top: 12px;
-  padding: 10px 12px;
-  background: #fee2e2;
-  color: #a80f0f;
-  border-radius: 10px;
-  font-size: 14px;
-  text-align: center;
 }
 
 
