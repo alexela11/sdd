@@ -18,17 +18,7 @@
     <button class="btn primary" onclick="goAdd()">+ Add New</button>
     <button class="btn secondary" onclick="goHistory()">📜 History</button>
     <button class="btn danger" onclick="logout()">🚪 Logout</button>
-    <div id="logoutModal" class="modal-overlay">
-  <div class="modal-box">
-    <p>Are you sure you want to log out?</p>
-
-    <div class="modal-actions">
-      <button class="btn danger" onclick="confirmLogout()">Yes</button>
-      <button class="btn secondary" onclick="closeLogout()">No</button>
-    </div>
-  </div>
 </div>
-
   </div>
 
   <div id="userList" class="user-list"></div>
@@ -85,8 +75,21 @@ function openUser(id) {
 loadUsers();
 
 </script>
+
+<div id="logoutModal" class="modal-overlay">
+  <div class="modal-box">
+    <p class="modal-text">Are you sure you want to log out?</p>
+
+    <div class="modal-actions">
+      <button class="btn danger" onclick="confirmLogout()">Yes</button>
+      <button class="btn secondary" onclick="closeLogout()">No</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
+
 
 
 
