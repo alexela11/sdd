@@ -10,21 +10,23 @@
 </head>
 <body>
 
-<div class="screen">
-  <div class="card">
-    <div class="manage-card">
+<div class="manage-card">
 
-    <h2 id="userName"></h2>
-    <p id="userStatus"></p>
+  <h2 id="userName"></h2>
+  <p id="userStatus"></p>
 
+  <!-- 🔥 BUTTON STACK (IMPORTANT) -->
+  <div class="manage-actions">
     <button id="toggleBtn" class="btn primary"></button>
     <button class="btn primary" onclick="goUpdateRFID()">Update RFID</button>
     <button class="btn secondary" onclick="goHistory()">View History</button>
-
-    <a href="index.html" class="back-link">← Back</a>
-
   </div>
+
+  <a href="index.html" class="back-link">← Back</a>
+
 </div>
+
+
 
 <script>
 const SUPABASE_URL = "https://fiiflkakeaorglvqyjxx.supabase.co";
@@ -92,5 +94,6 @@ loadUser();
 
 </body>
 </html>
+
 
 
