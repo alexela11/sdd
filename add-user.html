@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Add User</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+  <h2>Add User</h2>
+
+  <label>Name</label>
+  <input type="text" id="name">
+
+  <label>RFID UID</label>
+  <select id="rfid_uid">
+    <option value="">Loading RFID...</option>
+  </select>
+
+  <label>Fingerprint ID</label>
+  <input type="text" id="fingerprint_id">
+
+  <button onclick="saveUser()">Save</button>
+  <a class="link" href="index.html">⬅ Back</a>
+</div>
+
+<script>
+/* ===== SUPABASE CONFIG ===== */
+const SUPABASE_URL = "https://fiiflkakeaorglvqyjxx.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZpaWZsa2FrZWFvcmdsdnF5anh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1NzMxMTcsImV4cCI6MjA4NTE0OTExN30.jWvGfrYhLtXgTKPlLod_TmdavoIAKudeQZ2AT42pVE8";
+
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// ✅ FIX: DEFINE THE SELECT ELEMENT
+const rfidSelect = document.getElementById("rfid_uid");
+
+/* ===== LOAD AVAILABLE RFID ===== */
+async function loadRFIDs() {
+  const { data: allRFIDs, error: rfidErr } = await db
+    .from("rfid_cards")
+    .select("uid");
+
+  if (rfidErr) {
+    alert("Failed to load RFID cards");
+    console.error(rfidErr);
+    return;
+  }
+
+  const { data: activeUsers, error: userErr } = await db
+    .from("drawer_users")
+    .select("rfid_uid")
+    .eq("is_active", true);
+
+  if (userErr) {
+    alert("Failed to check active users");
+    console.error(userErr);
+    return;
+  }
+
+  const usedRFIDs = new Set(
+    activeUsers.map(u => u.rfid_uid).filter(Boolean)
+  );
+
+  const availableRFIDs = allRFIDs.filter(
+    r => !usedRFIDs.has(r.uid)
+  );
+
+  rfidSelect.innerHTML = "";
+
+  if (availableRFIDs.length === 0) {
+    rfidSelect.innerHTML = `<option value="">No RFID available</option>`;
+    return;
+  }
+
+  availableRFIDs.forEach(r => {
+    rfidSelect.innerHTML += `<option value="${r.uid}">${r.uid}</option>`;
+  });
+}
+
+loadRFIDs();
+
+/* ===== SAVE USER ===== */
+async function saveUser() {
+  const name = document.getElementById("name").value.trim();
+  const rfid_uid = rfidSelect.value;
+  const fingerprint_id = document.getElementById("fingerprint_id").value.trim();
+
+  if (!name || !rfid_uid || !fingerprint_id) {
+    alert("Please fill all fields");
+    return;
+  }
+
+  const { error } = await db
+    .from("drawer_users")
+    .insert([{
+      name,
+      rfid_uid,
+      fingerprint_id,
+      is_active: true
+    }]);
+
+  if (error) {
+    alert("Failed to add user");
+    console.error(error);
+    return;
+  }
+
+  alert("✅ User added successfully");
+  window.location.href = "index.html";
+}
+</script>
+
+
+</body>
+</html>

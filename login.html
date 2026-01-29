@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Login</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+  <h2>Admin Login</h2>
+
+  <label>Username</label>
+  <input id="username">
+
+  <label>Password</label>
+  <input type="password" id="password">
+
+  <button id="loginBtn">Login</button>
+
+  <a class="link" href="admin-register.html">Don't have an account?</a>
+</div>
+
+<script>
+/* ===== SUPABASE CONFIG ===== */
+const SUPABASE_URL = "https://fiiflkakeaorglvqyjxx.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZpaWZsa2FrZWFvcmdsdnF5anh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1NzMxMTcsImV4cCI6MjA4NTE0OTExN30.jWvGfrYhLtXgTKPlLod_TmdavoIAKudeQZ2AT42pVE8";
+
+
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+/* ===== PASSWORD HASH ===== */
+async function hashPassword(password) {
+  const enc = new TextEncoder();
+  const data = enc.encode(password);
+  const hash = await crypto.subtle.digest("SHA-256", data);
+  return Array.from(new Uint8Array(hash))
+    .map(b => b.toString(16).padStart(2,"0"))
+    .join("");
+}
+
+/* ===== LOGIN ===== */
+async function loginAdmin() {
+  const usernameVal = username.value.trim();
+  const passwordVal = password.value;
+
+  if (!usernameVal || !passwordVal) {
+    alert("Fill all fields");
+    return;
+  }
+
+  const password_hash = await hashPassword(passwordVal);
+
+  const { data, error } = await db
+    .from("admin_accounts")
+    .select("*")
+    .eq("username", usernameVal)
+    .eq("password_hash", password_hash)
+    .single();
+
+  if (error || !data) {
+    alert("Invalid username or password");
+    return;
+  }
+
+  localStorage.setItem("admin", JSON.stringify(data));
+  window.location.href = "index.html";
+}
+
+/* ===== BUTTON EVENT ===== */
+document
+  .getElementById("loginBtn")
+  .addEventListener("click", loginAdmin);
+</script>
+
+</body>
+</html>

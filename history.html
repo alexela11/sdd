@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Access History</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<div class="container">
+  <h2>Access History</h2>
+  <div id="logs"></div>
+  <a class="back" href="index.html">Back</a>
+</div>
+
+<script>
+const SUPABASE_URL = "https://fiiflkakeaorglvqyjxx.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZpaWZsa2FrZWFvcmdsdnF5anh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1NzMxMTcsImV4cCI6MjA4NTE0OTExN30.jWvGfrYhLtXgTKPlLod_TmdavoIAKudeQZ2AT42pVE8";
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+async function load() {
+  const { data } = await db
+    .from("access_logs")
+    .select("*")
+    .order("access_time", { ascending:false });
+
+  logs.innerHTML = "";
+  data.forEach(l => {
+    logs.innerHTML += `
+      <div class="list-item">
+        <div>${l.user_name || "UNAUTHORIZED"}</div>
+        <div class="small">${new Date(l.access_time).toLocaleString()}</div>
+      </div>
+    `;
+  });
+}
+load();
+</script>
+</body>
+</html>

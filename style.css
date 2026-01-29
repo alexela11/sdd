@@ -1,0 +1,259 @@
+/* ===== RESET ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* ===== PAGE BASE ===== */
+body {
+  background: #f5f7fb;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== CONTAINER (FORMS / PAGES) ===== */
+.container {
+  width: 92%;
+  max-width: 380px;
+  background: #ffffff;
+  padding: 22px;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* ===== HEADINGS ===== */
+.container h2 {
+  text-align: center;
+  margin-bottom: 18px;
+  font-size: 22px;
+  color: #111827;
+}
+
+/* ===== INPUTS ===== */
+input, select {
+  width: 100%;
+  padding: 12px 14px;
+  margin-top: 8px;
+  margin-bottom: 14px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  font-size: 15px;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+/* ===== BUTTONS ===== */
+button {
+  width: 100%;
+  padding: 13px;
+  border-radius: 10px;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+/* PRIMARY BUTTON */
+button.primary,
+button {
+  background: #2563eb;
+  color: white;
+}
+
+button.primary:hover {
+  background: #1d4ed8;
+}
+
+/* SUCCESS BUTTON */
+button.success {
+  background: #16a34a;
+  color: white;
+}
+
+button.success:hover {
+  background: #15803d;
+}
+
+/* DANGER BUTTON */
+button.danger {
+  background: #dc2626;
+  color: white;
+}
+
+button.danger:hover {
+  background: #b91c1c;
+}
+
+/* ===== LINKS ===== */
+a {
+  text-decoration: none;
+  color: #2563eb;
+  font-size: 14px;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.back-btn {
+  display: block;
+  text-align: center;
+  margin-top: 14px;
+}
+
+/* ===== HINT TEXT ===== */
+.hint {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 12px;
+}
+
+/* ===== TOP BAR (INDEX / MANAGE) ===== */
+.top-bar {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.top-bar button {
+  width: auto;
+  padding: 10px 14px;
+  font-size: 14px;
+}
+
+/* ===== USER LIST BLOCKS ===== */
+.user-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+}
+/* MANAGE USER CARD */
+.manage-card {
+  width: 90%;
+  max-width: 360px;
+  margin: 10% auto;
+  background: #fff;
+  padding: 6%;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+/* BUTTON STACK */
+.manage-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* 👈 THIS FIXES OVERLAPPING */
+  margin-top: 16px;
+}
+
+.manage-actions button {
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: none;
+  background: #2f66e9;
+  color: #fff;
+}
+
+.manage-actions button.secondary {
+  background: #5a7df0;
+}
+
+.manage-actions button.danger {
+  background: #d9534f;
+}
+
+.back-link {
+  display: block;
+  margin-top: 12px;
+  text-align: left;
+  color: #2f66e9;
+  text-decoration: none;
+}
+ 
+.user-name {
+  font-weight: 600;
+  color: #111827;
+}
+
+.last-used {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* ===== STATUS BADGES ===== */
+.badge {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge.active {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.badge.inactive {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* ===== TABLE (HISTORY / LOGS) ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+
+thead {
+  background: #f1f5f9;
+}
+
+tbody tr:nth-child(even) {
+  background: #f9fafb;
+}
+
+/* ===== CHECK ICONS ===== */
+.check {
+  color: #16a34a;
+  font-weight: bold;
+}
+
+.cross {
+  color: #dc2626;
+  font-weight: bold;
+}
+
+/* ===== MOBILE SAFE ===== */
+@media (max-width: 420px) {
+  .container {
+    padding: 18px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+}

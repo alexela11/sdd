@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard</title>
+<link rel="stylesheet" href="stalk.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.js"></script>
+</head>
+<body>
+
+<div class="screen">
+
+  <div class="top-bar">
+    <button class="btn primary" onclick="goAdd()">+ Add New</button>
+    <button class="btn secondary" onclick="goHistory()">📜 History</button>
+  </div>
+
+  <div id="userList" class="user-list"></div>
+
+</div>
+
+<script>
+const SUPABASE_URL = "https://fiiflkakeaorglvqyjxx.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZpaWZsa2FrZWFvcmdsdnF5anh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1NzMxMTcsImV4cCI6MjA4NTE0OTExN30.jWvGfrYhLtXgTKPlLod_TmdavoIAKudeQZ2AT42pVE8";
+
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const admin = JSON.parse(localStorage.getItem("admin"));
+if (!admin) location.href = "login.html";
+
+function goAdd() { location.href = "add-user.html"; }
+function goHistory() { location.href = "history.html"; }
+
+async function loadUsers() {
+  const { data } = await db
+    .from("drawer_users")
+    .select("id,name,last_access_at")
+    .order("name");
+
+  userList.innerHTML = "";
+
+  data.forEach(u => {
+    userList.innerHTML += `
+      <div class="user-row" onclick="openUser('${u.id}')">
+        <div class="user-name">${u.name}</div>
+        <div class="user-time">${u.last_access_at ?? "Never"}</div>
+      </div>
+    `;
+  });
+}
+
+function openUser(id) {
+  location.href = `manage.html?id=${id}`;
+}
+
+loadUsers();
+</script>
+
+</body>
+</html>

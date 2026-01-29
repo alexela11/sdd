@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Update RFID</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.js"></script>
+</head>
+<body>
+
+<div class="screen">
+  <div class="card">
+
+    <h2>Update RFID</h2>
+    <select id="rfidSelect"></select>
+
+    <button class="btn primary" onclick="saveRFID()">Save</button>
+    <a href="#" class="back-link" onclick="goBack()">← Back</a>
+
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = "https://fiiflkakeaorglvqyjxx.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZpaWZsa2FrZWFvcmdsdnF5anh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1NzMxMTcsImV4cCI6MjA4NTE0OTExN30.jWvGfrYhLtXgTKPlLod_TmdavoIAKudeQZ2AT42pVE8";
+
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const userId = new URLSearchParams(window.location.search).get("id");
+let currentUser;
+
+async function loadData() {
+  // 1️⃣ Load current user
+  const { data: user } = await db
+    .from("drawer_users")
+    .select("*")
+    .eq("id", userId)
+    .single();
+
+  currentUser = user;
+
+  // 2️⃣ Get ALL RFID cards
+  const { data: allRFIDs } = await db
+    .from("rfid_cards")
+    .select("uid");
+
+  // 3️⃣ Get RFID used by ACTIVE users (except this user)
+  const { data: activeUsers } = await db
+    .from("drawer_users")
+    .select("rfid_uid")
+    .eq("is_active", true)
+    .neq("id", userId);
+
+  const usedRFIDs = new Set(
+    activeUsers.map(u => u.rfid_uid).filter(Boolean)
+  );
+
+  // 4️⃣ Populate dropdown
+  rfidSelect.innerHTML = "";
+
+  allRFIDs.forEach(r => {
+    if (!usedRFIDs.has(r.uid) || r.uid === currentUser.rfid_uid) {
+      rfidSelect.innerHTML += `
+        <option value="${r.uid}" ${r.uid === currentUser.rfid_uid ? "selected" : ""}>
+          ${r.uid}
+        </option>
+      `;
+    }
+  });
+}
+
+async function saveRFID() {
+  const newUID = rfidSelect.value;
+
+  await db
+    .from("drawer_users")
+    .update({ rfid_uid: newUID })
+    .eq("id", userId);
+
+  alert("RFID updated");
+  goBack();
+}
+
+function goBack() {
+  location.href = `manage.html?id=${userId}`;
+}
+
+loadData();
+</script>
+
+
+</body>
+</html>

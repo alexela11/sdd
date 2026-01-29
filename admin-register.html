@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Register Admin</title>
+
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<div class="container">
+  <h2>Create Admin</h2>
+
+  <input id="full_name" placeholder="Full Name">
+  <input id="username" placeholder="Username">
+  <input id="password" type="password" placeholder="Password">
+
+  <button id="registerBtn">Register</button>
+  <a class="link" href="login.html">⬅ Back to Login</a>
+</div>
+
+<script>
+const SUPABASE_URL = "https://fiiflkakeaorglvqyjxx.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZpaWZsa2FrZWFvcmdsdnF5anh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1NzMxMTcsImV4cCI6MjA4NTE0OTExN30.jWvGfrYhLtXgTKPlLod_TmdavoIAKudeQZ2AT42pVE8";
+
+
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+async function hashPassword(password) {
+  const enc = new TextEncoder();
+  const hash = await crypto.subtle.digest("SHA-256", enc.encode(password));
+  return Array.from(new Uint8Array(hash))
+    .map(b => b.toString(16).padStart(2,"0"))
+    .join("");
+}
+
+async function registerAdmin() {
+  const name = full_name.value.trim();
+  const user = username.value.trim();
+  const pass = password.value;
+
+  if (!name || !user || !pass) {
+    alert("Fill all fields");
+    return;
+  }
+
+  const password_hash = await hashPassword(pass);
+
+  const { data, error } = await db
+    .from("admin_accounts")
+    .insert([{
+      full_name: name,
+      username: user,
+      password_hash: password_hash
+    }]);
+
+  if (error) {
+    console.error(error);
+    alert("REGISTER FAILED:\n" + error.message);
+  } else {
+    alert("✅ Admin registered successfully");
+    window.location.href = "login.html";
+  }
+}
+
+document
+  .getElementById("registerBtn")
+  .addEventListener("click", registerAdmin);
+</script>
+
+</body>
+</html>
