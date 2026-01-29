@@ -15,34 +15,33 @@ body {
   justify-content: center;
 }
 
+/* ===== CONTAINER (FOR FORMS) ===== */
 .container {
   width: 94%;
-  max-width: 420px; /* 👈 bigger on phones */
+  max-width: 420px;
   background: #ffffff;
-  padding: 26px;    /* 👈 more breathing room */
+  padding: 26px;
   border-radius: 16px;
   box-shadow: 0 12px 35px rgba(0,0,0,0.1);
 }
-
 
 /* ===== HEADINGS ===== */
 .container h2 {
   text-align: center;
   margin-bottom: 22px;
-  font-size: 24px;   /* 👈 better for phone */
+  font-size: 24px;
   color: #111827;
 }
-
 
 /* ===== INPUTS ===== */
 input, select {
   width: 100%;
-  padding: 16px 16px;   /* 👈 taller */
+  padding: 16px;
   margin-top: 10px;
   margin-bottom: 16px;
   border-radius: 12px;
   border: 1px solid #d1d5db;
-  font-size: 17px;      /* 👈 readable on phone */
+  font-size: 17px;
 }
 
 input:focus, select:focus {
@@ -50,22 +49,20 @@ input:focus, select:focus {
   border-color: #2563eb;
 }
 
-/* ===== BUTTONS ===== */
+/* ===== BUTTONS (GLOBAL) ===== */
 button {
   width: 100%;
-  padding: 16px;        /* 👈 thumb friendly */
+  padding: 16px;
   border-radius: 12px;
   border: none;
-  font-size: 17px;      /* 👈 bigger text */
+  font-size: 17px;
   font-weight: 600;
   cursor: pointer;
   transition: 0.2s ease;
 }
 
-
-/* PRIMARY BUTTON */
-button.primary,
-button {
+button,
+button.primary {
   background: #2563eb;
   color: white;
 }
@@ -74,24 +71,12 @@ button.primary:hover {
   background: #1d4ed8;
 }
 
-/* SUCCESS BUTTON */
 button.success {
   background: #16a34a;
-  color: white;
 }
 
-button.success:hover {
-  background: #15803d;
-}
-
-/* DANGER BUTTON */
 button.danger {
   background: #dc2626;
-  color: white;
-}
-
-button.danger:hover {
-  background: #b91c1c;
 }
 
 /* ===== LINKS ===== */
@@ -101,79 +86,84 @@ a {
   font-size: 14px;
 }
 
-a:hover {
-  text-decoration: underline;
-}
-
-.back-btn {
+.back-link {
   display: block;
-  text-align: center;
-  margin-top: 14px;
+  margin-top: 18px;
+  text-align: left;
+  font-size: 15px;
 }
 
-/* ===== HINT TEXT ===== */
-.hint {
-  font-size: 12px;
-  color: #6b7280;
-  margin-bottom: 12px;
-}
-
-/* ===== TOP BAR (INDEX / MANAGE) ===== */
+/* ===== TOP BAR (INDEX) ===== */
 .top-bar {
   width: 100%;
   max-width: 480px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 18px;
 }
 
 .top-bar button {
   width: auto;
-  padding: 10px 14px;
+  padding: 12px 16px;
+  font-size: 14px;
+  border-radius: 12px;
+}
+
+/* ===== USER LIST ===== */
+.user-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.user-name {
+  flex: 1;
+  background: #2563eb;
+  color: #fff;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 16px;
+}
+
+.user-time {
+  background: #cbd5e1;
+  padding: 14px 14px;
+  border-radius: 12px;
   font-size: 14px;
 }
 
-/* ===== USER LIST BLOCKS ===== */
-.user-card {
-  background: #ffffff;
-  border-radius: 12px;
-  padding: 14px;
-  margin-bottom: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.05);
-}
-/* MANAGE USER CARD */
+/* ===== MANAGE USER CARD ===== */
 .manage-card {
   width: 92%;
   max-width: 420px;
-
   margin: 24px auto;
   background: #fff;
-
-  padding: 24px;          /* 👈 FIX EDGE PROBLEM */
+  padding: 24px;
   border-radius: 16px;
-
   box-shadow: 0 10px 25px rgba(0,0,0,0.08);
   text-align: center;
 }
 
-
-/* BUTTON STACK */
+/* ===== MANAGE BUTTON STACK (🔥 FIXED) ===== */
 .manage-actions {
   display: flex;
   flex-direction: column;
-  gap: 14px;        /* 👈 more breathing room */
   margin-top: 20px;
 }
 
+/* 🔥 iOS SAFARI LAPPING FIX */
 .manage-actions button {
   width: 100%;
-  padding: 16px;       /* 👈 taller buttons */
+  padding: 18px;
   font-size: 17px;
-  border-radius: 12px;
+  border-radius: 14px;
+  margin-bottom: 14px;   /* 👈 REAL spacing */
+}
+
+/* Remove extra space after last button */
+.manage-actions button:last-child {
+  margin-bottom: 0;
 }
 
 .manage-actions button.secondary {
@@ -184,91 +174,16 @@ a:hover {
   background: #d9534f;
 }
 
-.back-link {
-  display: block;
-  margin-top: 18px;
-  padding-left: 4px;
-
-  text-align: left;
-  color: #2563eb;
-  text-decoration: none;
-  font-size: 15px;
-}
-
-.user-name {
-  font-weight: 600;
-  color: #111827;
-}
-
-.last-used {
-  font-size: 12px;
-  color: #6b7280;
-}
-
-/* ===== STATUS BADGES ===== */
-.badge {
-  padding: 5px 10px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.badge.active {
-  background: #dcfce7;
-  color: #166534;
-}
-
-.badge.inactive {
-  background: #fee2e2;
-  color: #991b1b;
-}
-
-/* ===== TABLE (HISTORY / LOGS) ===== */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
-}
-
-th, td {
-  padding: 10px;
-  text-align: left;
-}
-
-thead {
-  background: #f1f5f9;
-}
-
-tbody tr:nth-child(even) {
-  background: #f9fafb;
-}
-
-/* ===== CHECK ICONS ===== */
-.check {
-  color: #16a34a;
-  font-weight: bold;
-}
-
-.cross {
-  color: #dc2626;
-  font-weight: bold;
-}
-/* ============================= */
-/* 📱 MOBILE SIZE BOOST (SAFE)   */
-/* ============================= */
+/* ===== MOBILE BOOST ===== */
 @media (max-width: 480px) {
-
   body {
     align-items: flex-start;
     padding-top: 1rem;
   }
 
   .container,
-  .manage-card,
-  .screen,
-  .card {
+  .manage-card {
     width: 95%;
-    max-width: 420px;
     padding: 1.5rem;
   }
 
@@ -276,24 +191,8 @@ tbody tr:nth-child(even) {
     font-size: 1.4rem;
   }
 
-  input,
-  select {
-    font-size: 1rem;
-    padding: 0.9rem;
-  }
-
   button {
     font-size: 1rem;
-    padding: 0.9rem;
-  }
-
-  .btn {
-    height: 3.2rem;
-    font-size: 1rem;
+    padding: 1rem;
   }
 }
-
-
-
-
-
