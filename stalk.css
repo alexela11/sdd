@@ -118,5 +118,36 @@ body {
 .screen::after {
   display: none;
 }
+/* =============================== */
+/* LOGO STYLES (SAFE & SCOPED)     */
+/* =============================== */
+
+.logo-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.logo-wrapper img {
+  width: 110px;
+  max-width: 100%;
+}
+
+/* Bigger logo for admin register */
+.logo-wrapper.large img {
+  width: 150px;
+}
+
+/* Slightly larger on desktop */
+@media (min-width: 768px) {
+  .logo-wrapper img {
+    width: 130px;
+  }
+
+  .logo-wrapper.large img {
+    width: 170px;
+  }
+}
+
 
 
