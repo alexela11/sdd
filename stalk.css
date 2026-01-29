@@ -138,6 +138,16 @@ body {
   }
 }
 
+/* =============================== */
+/* 📱 FORCE LOGO SIZE ON MOBILE    */
+/* =============================== */
+@media (max-width: 480px) {
+  .logo-wrapper img {
+    width: 90px !important;
+    height: auto;
+  }
+}
+
 
 
 
