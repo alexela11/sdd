@@ -26,7 +26,17 @@ body {
   margin: 2rem auto;
 }
 
-/* ===== HEADINGS ===== */
+/* ===== LOGIN ERROR MESSAGE ===== */
+.error-msg {
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: #fee2e2;
+  color: #991b1b;
+  border-radius: 10px;
+  font-size: 14px;
+  text-align: center;
+}
+
 .container h2 {
   text-align: center;
   margin-bottom: 22px;
@@ -277,4 +287,5 @@ a {
     width: 170px;
   }
 }
+
 
