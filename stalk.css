@@ -17,16 +17,6 @@ body {
 
 
 /* ===== PHONE FRAME ===== */
-.screen {
-  width: 100%;
-  max-width: 420px;
-  min-height: 100vh;
-
-  background: #f8fafc;
-  border-radius: 1rem;
-
-  padding: 1.25rem;
-}
 
 
 /* ===== TOP BAR ===== */
@@ -122,32 +112,45 @@ body {
 /* LOGO STYLES (SAFE & SCOPED)     */
 /* =============================== */
 
+/* =============================== */
+/* LOGO — MATCH WEB & MOBILE       */
+/* =============================== */
+
 .logo-wrapper {
   display: flex;
   justify-content: center;
-  margin-bottom: 1.5rem;
+  margin: 1rem 0 0.8rem;
 }
 
 .logo-wrapper img {
-  width: 110px;
-  max-width: 100%;
+  width: 72px;            /* 👈 SAME VISUAL SIZE AS WEB */
+  height: auto;
 }
 
 /* Bigger logo for admin register */
-.logo-wrapper.large img {
-  width: 150px;
+/* =============================== */
+/* INDEX PAGE WIDTH LOCK (KEY FIX) */
+/* =============================== */
+
+.screen {
+  max-width: 420px;        /* 👈 SAME AS WEB VIEW */
+  margin: 0 auto;          /* 👈 CENTER ALWAYS */
+  padding: 1rem;
 }
 
-/* Slightly larger on desktop */
-@media (min-width: 768px) {
-  .logo-wrapper img {
-    width: 130px;
+/* Prevent mobile from stretching content */
+@media (max-width: 480px) {
+  body {
+    display: flex;
+    justify-content: center;
   }
 
-  .logo-wrapper.large img {
-    width: 170px;
+  .screen {
+    width: 100%;
+    max-width: 420px;
   }
 }
+
 
 
 
