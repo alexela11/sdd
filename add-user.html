@@ -132,8 +132,9 @@ document
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization":
-            "Bearer " + SUPABASE_KEY
+          // The Authorization header is removed/commented out here 
+          // because the function was deployed with --no-verify-jwt
+          // "Authorization": "Bearer " + SUPABASE_KEY 
         },
         body: JSON.stringify({
           device_id: "drawer_01"
