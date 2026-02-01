@@ -92,10 +92,39 @@ async function loadRFIDs() {
 
 loadRFIDs();
 
+/* ================= FINGERPRINT RESULT POLLING (NEW) ================= */
+async function waitForFingerprintResult() {
+  fpStatus.innerText = "⌛ Waiting for fingerprint...";
+
+  const interval = setInterval(async () => {
+
+    const { data, error } = await db
+      .from("device_commands")
+      .select("*")
+      .eq("device_id", "drawer_01")
+      .eq("status", "DONE")
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .single();
+
+    if (error || !data) return;
+
+    enrolledFingerprintId = data.fingerprint_id;
+
+    fpStatus.innerText =
+      "✅ Fingerprint registered (ID: " + enrolledFingerprintId + ")";
+
+    clearInterval(interval);
+
+  }, 2000);
+}
+
 /* ================= REGISTER FINGERPRINT ================= */
 document
   .getElementById("registerFingerprintBtn")
   .addEventListener("click", async () => {
+
+    fpStatus.innerText = "";
 
     const res = await fetch(
       "https://fiiflkakeaorglvqyjxx.supabase.co/functions/v1/start-fingerprint-enroll",
@@ -104,7 +133,7 @@ document
         headers: {
           "Content-Type": "application/json",
           "Authorization":
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZpaWZsa2FrZWFvcmdsdnF5anh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1NzMxMTcsImV4cCI6MjA4NTE0OTExN30.jWvGfrYhLtXgTKPlLod_TmdavoIAKudeQZ2AT42pVE8"
+            "Bearer " + SUPABASE_KEY
         },
         body: JSON.stringify({
           device_id: "drawer_01"
@@ -116,11 +145,13 @@ document
 
     if (data.status === "ENROLL_STARTED") {
       alert("🟢 Please place finger on the device");
+      waitForFingerprintResult(); // 👈 IMPORTANT
     } else {
       alert("❌ Failed to start enrollment");
       console.log(data);
     }
 });
+
 /* ================= SAVE USER ================= */
 document.getElementById("saveBtn").addEventListener("click", async () => {
 
@@ -154,5 +185,3 @@ document.getElementById("saveBtn").addEventListener("click", async () => {
 
 </body>
 </html>
-
-
