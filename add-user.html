@@ -21,8 +21,9 @@
     <option value="">Loading RFID...</option>
   </select>
 
-  <label>Fingerprint ID</label>
-  <input type="text" id="fingerprint_id">
+  <button id="registerFingerprintBtn">
+  Register Fingerprint
+   </button>
 
   <button onclick="saveUser()">Save</button>
   <a class="link" href="index.html">⬅ Back</a>
@@ -82,6 +83,34 @@ async function loadRFIDs() {
 }
 
 loadRFIDs();
+<script>
+document.getElementById("btnRegisterFP").addEventListener("click", async () => {
+
+  // 1. Call the Edge Function
+  const res = await fetch(
+    "https://fiiflkakeaorglvqyjxx.supabase.co/functions/v1/start-fingerprint-enroll",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZpaWZsa2FrZWFvcmdsdnF5anh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1NzMxMTcsImV4cCI6MjA4NTE0OTExN30.jWvGfrYhLtXgTKPlLod_TmdavoIAKudeQZ2AT42pVE8"
+      },
+      body: JSON.stringify({
+        device_id: "drawer_01"
+      })
+    }
+  );
+
+  const data = await res.json();
+
+  // 2. Show modal / message
+  if (data.status === "ENROLL_STARTED") {
+    alert("Please place finger on the device");
+  } else {
+    alert("Failed to start fingerprint enrollment");
+  }
+});
+</script>
 
 /* ===== SAVE USER ===== */
 async function saveUser() {
@@ -117,4 +146,5 @@ async function saveUser() {
 
 </body>
 </html>
+
 
