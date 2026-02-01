@@ -129,10 +129,12 @@ document
       "https://fiiflkakeaorglvqyjxx.supabase.co/functions/v1/start-fingerprint-enroll",
       {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          // "Authorization": "Bearer " + SUPABASE_KEY // Removed header as function is public
-        },
+       headers: {
+  "Content-Type": "application/json",
+  "Authorization": "Bearer " + SUPABASE_KEY,
+  "apikey": SUPABASE_KEY
+},
+
         body: JSON.stringify({
           device_id: "drawer_01"
         })
@@ -183,3 +185,4 @@ document.getElementById("saveBtn").addEventListener("click", async () => {
 
 </body>
 </html>
+
