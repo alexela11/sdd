@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Add User</title>
 
-<script src="https://cdn.jsdelivr.net"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -123,17 +123,21 @@ async function waitForFingerprintResult() {
 document
   .getElementById("registerFingerprintBtn")
   .addEventListener("click", async () => {
-    // ... other code ...
+
+    fpStatus.innerText = "";
+
     const res = await fetch(
-      "https://fiiflkakeaorglvqyjxx.supabase.co",
+      "https://fiiflkakeaorglvqyjxx.supabase.co/functions/v1/start-fingerprint-enroll",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          // DELETE THIS LINE:
-          // "Authorization": "Bearer " + SUPABASE_KEY 
+          "Authorization":
+            "Bearer " + SUPABASE_KEY
         },
-        body: JSON.stringify({ device_id: "drawer_01" })
+        body: JSON.stringify({
+          device_id: "drawer_01"
+        })
       }
     );
 
@@ -181,4 +185,3 @@ document.getElementById("saveBtn").addEventListener("click", async () => {
 
 </body>
 </html>
-
