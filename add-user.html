@@ -43,10 +43,10 @@ const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const rfidSelect = document.getElementById("rfid_uid");
 const fpStatus = document.getElementById("fpStatus");
 let enrolledFingerprintId = null;
+let currentCommandId = null; // 🟢 FIX: New variable to store the specific command ID
 
 /* ================= LOAD RFID (UNCHANGED) ================= */
 async function loadRFIDs() {
-
   const { data: allRFIDs, error: rfidErr } = await db
     .from("rfid_cards")
     .select("uid");
@@ -92,22 +92,21 @@ async function loadRFIDs() {
 
 loadRFIDs();
 
-/* ================= FINGERPRINT RESULT POLLING (NEW) ================= */
+/* ================= FINGERPRINT RESULT POLLING (MODIFIED) ================= */
 async function waitForFingerprintResult() {
   fpStatus.innerText = "⌛ Waiting for fingerprint...";
 
   const interval = setInterval(async () => {
-
+    // 🟢 FIX: Query using the specific command_id we just created
     const { data, error } = await db
       .from("device_commands")
       .select("*")
-      .eq("device_id", "drawer_01")
+      .eq("id", currentCommandId) // 🟢 FIX: Use the specific ID
       .eq("status", "DONE")
-      .order("created_at", { ascending: false })
-      .limit(1)
       .single();
 
-    if (error || !data) return;
+    // If we have an error or the status isn't DONE yet, just return and poll again
+    if (error || !data || data.fingerprint_id === undefined || data.fingerprint_id === null) return;
 
     enrolledFingerprintId = data.fingerprint_id;
 
@@ -119,7 +118,7 @@ async function waitForFingerprintResult() {
   }, 2000);
 }
 
-/* ================= REGISTER FINGERPRINT ================= */
+/* ================= REGISTER FINGERPRINT (MODIFIED) ================= */
 document
   .getElementById("registerFingerprintBtn")
   .addEventListener("click", async () => {
@@ -132,9 +131,7 @@ document
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          // The Authorization header is removed/commented out here 
-          // because the function was deployed with --no-verify-jwt
-          // "Authorization": "Bearer " + SUPABASE_KEY 
+          // "Authorization": "Bearer " + SUPABASE_KEY // Removed header as function is public
         },
         body: JSON.stringify({
           device_id: "drawer_01"
@@ -143,10 +140,11 @@ document
     );
 
     const data = await res.json();
-
+    
     if (data.status === "ENROLL_STARTED") {
+      currentCommandId = data.command_id; // 🟢 FIX: Capture the new command ID
       alert("🟢 Please place finger on the device");
-      waitForFingerprintResult(); // 👈 IMPORTANT
+      waitForFingerprintResult();
     } else {
       alert("❌ Failed to start enrollment");
       console.log(data);
@@ -155,7 +153,6 @@ document
 
 /* ================= SAVE USER ================= */
 document.getElementById("saveBtn").addEventListener("click", async () => {
-
   const name = document.getElementById("name").value.trim();
   const rfid_uid = rfidSelect.value;
 
