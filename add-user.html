@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Add User</title>
 
-<!-- 🟢 FIX 1: Add the complete Supabase library URL -->
+<!-- This script loads the external Supabase library -->
 <script src="https://cdn.jsdelivr.net"></script>
 <link rel="stylesheet" href="style.css">
 </head>
@@ -33,7 +33,7 @@
   <a class="link" href="index.html">⬅ Back</a>
 </div>
 
-<!-- 🟢 FIX 2: Move the main script block here, after the library loads -->
+<!-- 🟢 FIX: Move your custom JavaScript block down here, just before the closing </body> tag -->
 <script>
 /* ================= SUPABASE CONFIG ================= */
 const SUPABASE_URL = "https://fiiflkakeaorglvqyjxx.supabase.co";
@@ -45,7 +45,7 @@ const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const rfidSelect = document.getElementById("rfid_uid");
 const fpStatus = document.getElementById("fpStatus");
 let enrolledFingerprintId = null;
-let currentCommandId = null;
+let currentCommandId = null; // Store the ID of the command we are tracking
 
 /* ================= LOAD RFID (UNCHANGED) ================= */
 async function loadRFIDs() {
@@ -100,6 +100,7 @@ async function waitForFingerprintResult() {
   fpStatus.innerText = "⌛ Waiting for fingerprint...";
 
   const interval = setInterval(async () => {
+    // Poll the specific command ID we just generated
     const { data, error } = await db
       .from("device_commands")
       .select("*")
@@ -107,13 +108,16 @@ async function waitForFingerprintResult() {
       .eq("status", "DONE")
       .single();
 
+    // If status isn't DONE yet, return and poll again
     if (error || !data) return;
 
+    // Check if the hardware returned a fingerprint ID correctly
     if (data.fingerprint_id !== null) {
       enrolledFingerprintId = data.fingerprint_id;
       fpStatus.innerText = "✅ Fingerprint registered (ID: " + enrolledFingerprintId + ")";
-      clearInterval(interval);
+      clearInterval(interval); // Stop polling once we have the ID
     } else {
+      // Handle error case where hardware failed to enroll but marked status DONE
       fpStatus.innerText = "❌ Enrollment failed on device. Try again.";
       clearInterval(interval);
     }
@@ -128,14 +132,13 @@ document
 
     fpStatus.innerText = "";
 
-    // 🟢 FIX 3: Use the correct, full URL for your Edge Function
     const res = await fetch(
       "https://fiiflkakeaorglvqyjxx.supabase.co",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          // "Authorization": "Bearer " + SUPABASE_KEY // Function is public
+          // "Authorization": "Bearer " + SUPABASE_KEY // Removed header as function is public
         },
         body: JSON.stringify({
           device_id: "drawer_01"
@@ -146,7 +149,7 @@ document
     const data = await res.json();
     
     if (data.status === "ENROLL_STARTED") {
-      currentCommandId = data.command_id;
+      currentCommandId = data.command_id; // Capture the specific command ID
       alert("🟢 Please place finger on the device");
       waitForFingerprintResult();
     } else {
@@ -161,11 +164,13 @@ document.getElementById("saveBtn").addEventListener("click", async () => {
   const name = document.getElementById("name").value.trim();
   const rfid_uid = rfidSelect.value;
 
+  // This check ensures 'enrolledFingerprintId' is captured before saving
   if (!name || !rfid_uid || enrolledFingerprintId === null) {
     alert("Please complete all fields and register fingerprint");
     return;
   }
 
+  // Final insertion into the 'drawer_users' table happens here!
   const { error } = await db
     .from("drawer_users")
     .insert([{
