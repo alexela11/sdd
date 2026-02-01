@@ -156,54 +156,19 @@ document
     }
 });
 
-/* ================= SAVE USER (HANDLING UNIQUENESS) ================= */
+/* ================= SAVE USER ================= */
 document.getElementById("saveBtn").addEventListener("click", async () => {
 
   const name = document.getElementById("name").value.trim();
   const rfid_uid = rfidSelect.value;
 
+  // This check ensures 'enrolledFingerprintId' is captured before saving
   if (!name || !rfid_uid || enrolledFingerprintId === null) {
     alert("Please complete all fields and register fingerprint");
     return;
   }
-  
-  // Optional: Check if this fingerprint ID is already in use by another user
-  const { data: existingUser, error: checkError } = await db
-    .from("drawer_users")
-    .select("id, name")
-    .eq("fingerprint_id", enrolledFingerprintId)
-    .single();
 
-  if (checkError && checkError.code !== 'PGRST116') { // PGRST116 means no rows found
-    alert("An error occurred while checking existing users.");
-    console.error(checkError);
-    return;
-  }
-
-  if (existingUser) {
-    // If found, prompt the user to confirm replacement
-    const confirmReplace = confirm(
-        `Fingerprint ID ${enrolledFingerprintId} is already assigned to ${existingUser.name}. Replace them?`
-    );
-    
-    if (confirmReplace) {
-        // Option 1: Deactivate the old user
-        const { error: deactivateError } = await db
-            .from("drawer_users")
-            .update({ is_active: false })
-            .eq("id", existingUser.id);
-
-        if (deactivateError) {
-            alert("Failed to deactivate old user.");
-            console.error(deactivateError);
-            return;
-        }
-    } else {
-        return; // Stop the save process if they click cancel
-    }
-  }
-
-  // Final insertion into the drawer_users table
+  // Final insertion into the 'drawer_users' table happens here!
   const { error } = await db
     .from("drawer_users")
     .insert([{
