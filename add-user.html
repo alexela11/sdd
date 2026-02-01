@@ -123,21 +123,17 @@ async function waitForFingerprintResult() {
 document
   .getElementById("registerFingerprintBtn")
   .addEventListener("click", async () => {
-
-    fpStatus.innerText = "";
-
+    // ... other code ...
     const res = await fetch(
       "https://fiiflkakeaorglvqyjxx.supabase.co",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          // Remove the Authorization header here if you deployed the function with --no-verify-jwt
+          // DELETE THIS LINE:
           // "Authorization": "Bearer " + SUPABASE_KEY 
         },
-        body: JSON.stringify({
-          device_id: "drawer_01"
-        })
+        body: JSON.stringify({ device_id: "drawer_01" })
       }
     );
 
@@ -185,3 +181,4 @@ document.getElementById("saveBtn").addEventListener("click", async () => {
 
 </body>
 </html>
+
