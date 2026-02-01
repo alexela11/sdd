@@ -21,116 +21,88 @@
     <option value="">Loading RFID...</option>
   </select>
 
-  <button id="registerFingerprintBtn">
-  Register Fingerprint
-   </button>
+  <label>Fingerprint ID</label>
+  <input type="number" id="fingerprint_id" placeholder="After enrollment">
 
-  <button onclick="saveUser()">Save</button>
+  <button id="registerFingerprintBtn">
+    Register Fingerprint
+  </button>
+
+  <button id="saveBtn">Save</button>
   <a class="link" href="index.html">⬅ Back</a>
 </div>
 
 <script>
 /* ===== SUPABASE CONFIG ===== */
 const SUPABASE_URL = "https://fiiflkakeaorglvqyjxx.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZpaWZsa2FrZWFvcmdsdnF5anh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1NzMxMTcsImV4cCI6MjA4NTE0OTExN30.jWvGfrYhLtXgTKPlLod_TmdavoIAKudeQZ2AT42pVE8";
+const SUPABASE_KEY = "YOUR_ANON_KEY_HERE";
 
 const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-// ✅ FIX: DEFINE THE SELECT ELEMENT
 const rfidSelect = document.getElementById("rfid_uid");
 
 /* ===== LOAD AVAILABLE RFID ===== */
 async function loadRFIDs() {
-  const { data: allRFIDs, error: rfidErr } = await db
+  const { data: allRFIDs, error } = await db
     .from("rfid_cards")
     .select("uid");
 
-  if (rfidErr) {
-    alert("Failed to load RFID cards");
-    console.error(rfidErr);
+  if (error) {
+    alert("Failed to load RFID");
     return;
   }
-
-  const { data: activeUsers, error: userErr } = await db
-    .from("drawer_users")
-    .select("rfid_uid")
-    .eq("is_active", true);
-
-  if (userErr) {
-    alert("Failed to check active users");
-    console.error(userErr);
-    return;
-  }
-
-  const usedRFIDs = new Set(
-    activeUsers.map(u => u.rfid_uid).filter(Boolean)
-  );
-
-  const availableRFIDs = allRFIDs.filter(
-    r => !usedRFIDs.has(r.uid)
-  );
 
   rfidSelect.innerHTML = "";
-
-  if (availableRFIDs.length === 0) {
-    rfidSelect.innerHTML = `<option value="">No RFID available</option>`;
-    return;
-  }
-
-  availableRFIDs.forEach(r => {
+  allRFIDs.forEach(r => {
     rfidSelect.innerHTML += `<option value="${r.uid}">${r.uid}</option>`;
   });
 }
 
 loadRFIDs();
-<script>
-document.getElementById("btnRegisterFP").addEventListener("click", async () => {
 
-  // 1. Call the Edge Function
-  const res = await fetch(
-    "https://fiiflkakeaorglvqyjxx.supabase.co/functions/v1/start-fingerprint-enroll",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZpaWZsa2FrZWFvcmdsdnF5anh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1NzMxMTcsImV4cCI6MjA4NTE0OTExN30.jWvGfrYhLtXgTKPlLod_TmdavoIAKudeQZ2AT42pVE8"
-      },
-      body: JSON.stringify({
-        device_id: "drawer_01"
-      })
+/* ===== REGISTER FINGERPRINT ===== */
+document
+  .getElementById("registerFingerprintBtn")
+  .addEventListener("click", async () => {
+
+    const res = await fetch(
+      "https://fiiflkakeaorglvqyjxx.supabase.co/functions/v1/start-fingerprint-enroll",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZpaWZsa2FrZWFvcmdsdnF5anh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1NzMxMTcsImV4cCI6MjA4NTE0OTExN30.jWvGfrYhLtXgTKPlLod_TmdavoIAKudeQZ2AT42pVE8"
+        },
+        body: JSON.stringify({ device_id: "drawer_01" })
+      }
+    );
+
+    const data = await res.json();
+
+    if (data.status === "ENROLL_STARTED") {
+      alert("Place finger on the device");
+    } else {
+      alert("Failed to start fingerprint enrollment");
     }
-  );
-
-  const data = await res.json();
-
-  // 2. Show modal / message
-  if (data.status === "ENROLL_STARTED") {
-    alert("Please place finger on the device");
-  } else {
-    alert("Failed to start fingerprint enrollment");
-  }
 });
-</script>
 
 /* ===== SAVE USER ===== */
-async function saveUser() {
+document.getElementById("saveBtn").addEventListener("click", async () => {
+
   const name = document.getElementById("name").value.trim();
   const rfid_uid = rfidSelect.value;
-  const fingerprint_id = document.getElementById("fingerprint_id").value.trim();
+  const fingerprint_id = document.getElementById("fingerprint_id").value;
 
   if (!name || !rfid_uid || !fingerprint_id) {
     alert("Please fill all fields");
     return;
   }
 
-  const { error } = await db
-    .from("drawer_users")
-    .insert([{
-      name,
-      rfid_uid,
-      fingerprint_id,
-      is_active: true
-    }]);
+  const { error } = await db.from("drawer_users").insert([{
+    name,
+    rfid_uid,
+    fingerprint_id,
+    is_active: true
+  }]);
 
   if (error) {
     alert("Failed to add user");
@@ -140,11 +112,8 @@ async function saveUser() {
 
   alert("✅ User added successfully");
   window.location.href = "index.html";
-}
+});
 </script>
-
 
 </body>
 </html>
-
-
