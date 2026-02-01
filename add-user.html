@@ -134,7 +134,8 @@ document
 
     const res = await fetch(
       // 🟢 FIX: Use the full Edge Function URL, not the root domain
-      "https://fiiflkakeaorglvqyjxx.supabase.co",
+      "https://fiiflkakeaorglvqyjxx.supabase.co/functions/v1/start-fingerprint-enroll
+",
       {
         method: "POST",
         headers: {
@@ -194,5 +195,6 @@ document.getElementById("saveBtn").addEventListener("click", async () => {
 
 </body>
 </html>
+
 
 
