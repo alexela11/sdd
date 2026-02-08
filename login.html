@@ -147,35 +147,22 @@ button:hover {
 </div>
 
 <script>
-/* ==============================
-   SUPABASE CONFIG (FIXED)
-   ============================== */
-
-/* 🔴 PASTE YOUR REAL ANON PUBLIC KEY HERE */
+/* ===== SUPABASE CONFIG ===== */
 const SUPABASE_URL = "https://fiiflkakeaorglvqyjxx.supabase.co";
-const SUPABASE_ANON_KEY = "PASTE_YOUR_ANON_PUBLIC_KEY_HERE";
+const SUPABASE_KEY = "YOUR_PUBLIC_ANON_KEY";
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-/* Create client WITH API KEY */
-const db = supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_ANON_KEY
-);
-
-/* ==============================
-   PASSWORD HASH
-   ============================== */
+/* ===== PASSWORD HASH ===== */
 async function hashPassword(password) {
   const enc = new TextEncoder();
   const data = enc.encode(password);
   const hash = await crypto.subtle.digest("SHA-256", data);
   return Array.from(new Uint8Array(hash))
-    .map(b => b.toString(16).padStart(2, "0"))
+    .map(b => b.toString(16).padStart(2,"0"))
     .join("");
 }
 
-/* ==============================
-   LOGIN FUNCTION
-   ============================== */
+/* ===== LOGIN ===== */
 async function loginAdmin() {
   errorMsg.style.display = "none";
 
@@ -206,16 +193,10 @@ async function loginAdmin() {
 }
 
 loginBtn.addEventListener("click", loginAdmin);
-
-/* ENTER KEY SUPPORT */
-document.addEventListener("keydown", e => {
-  if (e.key === "Enter") loginAdmin();
-});
 </script>
 
 </body>
 </html>
-
 
 
 
