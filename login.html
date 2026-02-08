@@ -147,9 +147,11 @@ button:hover {
 </div>
 
 <script>
-/* ===== SUPABASE CONFIG ===== */
-const SUPABASE_URL = "https://fiiflkakeaorglvqyjxx.supabase.co";
-const SUPABASE_KEY = "YOUR_PUBLIC_ANON_KEY";
+/* ===== SUPABASE CONFIG (REAL ONE) ===== */
+const SUPABASE_URL = "https://qlnjstqddlpatxdbreme.supabase.co";
+const SUPABASE_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFsbmpzdHFkZGxwYXR4ZGJyZW1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA1MzYyMjYsImV4cCI6MjA4NjExMjIyNn0.JXd9H_Efl_GheVK2lnYU_yhOX09WuoMg6Bhh_nprXeE";
+
 const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 /* ===== PASSWORD HASH ===== */
@@ -193,19 +195,13 @@ async function loginAdmin() {
 }
 
 loginBtn.addEventListener("click", loginAdmin);
+
+/* ENTER KEY SUPPORT */
+document.addEventListener("keydown", e => {
+  if (e.key === "Enter") loginAdmin();
+});
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
 
